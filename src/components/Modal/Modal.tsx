@@ -1,38 +1,38 @@
 import { ReactNode, useEffect } from "react";
 import styles from "./Modal.module.css";
 
-interface ModalProps {
-  title: string;
-  onClose: () => void;
+interface PropsModal {
+  titulo: string;
+  aoFechar: () => void;
   children: ReactNode;
 }
 
-export function Modal({ title, onClose, children }: ModalProps) {
+export function Modal({ titulo, aoFechar, children }: PropsModal) {
   useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        onClose();
+    function aoPressionarTecla(evento: KeyboardEvent) {
+      if (evento.key === "Escape") {
+        aoFechar();
       }
     }
 
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [onClose]);
+    document.addEventListener("keydown", aoPressionarTecla);
+    return () => document.removeEventListener("keydown", aoPressionarTecla);
+  }, [aoFechar]);
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
+    <div className={styles.overlay} onClick={aoFechar}>
       <div
-        className={styles.dialog}
+        className={styles.dialogo}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="modal-title"
-        onClick={(event) => event.stopPropagation()}
+        aria-labelledby="titulo-modal"
+        onClick={(evento) => evento.stopPropagation()}
       >
         <div className={styles.header}>
-          <h2 id="modal-title" className={styles.title}>
-            {title}
+          <h2 id="titulo-modal" className={styles.titulo}>
+            {titulo}
           </h2>
-          <button type="button" className={styles.closeButton} onClick={onClose} aria-label="Fechar">
+          <button type="button" className={styles.botaoFechar} onClick={aoFechar} aria-label="Fechar">
             ×
           </button>
         </div>

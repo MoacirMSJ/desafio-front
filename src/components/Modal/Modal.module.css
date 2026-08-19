@@ -9,7 +9,7 @@
   z-index: 100;
 }
 
-.dialog {
+.dialogo {
   width: 100%;
   max-width: 480px;
   max-height: calc(100vh - 3rem);
@@ -28,13 +28,13 @@
   margin-bottom: 1rem;
 }
 
-.title {
+.titulo {
   margin: 0;
   font-size: 1.25rem;
   color: #111111;
 }
 
-.closeButton {
+.botaoFechar {
   border: none;
   background: transparent;
   font-size: 1.5rem;
@@ -44,7 +44,7 @@
   padding: 0.25rem;
 }
 
-.closeButton:hover {
+.botaoFechar:hover {
   color: #111111;
 }
 
@@ -54,7 +54,7 @@
     align-items: flex-end;
   }
 
-  .dialog {
+  .dialogo {
     max-width: 100%;
     max-height: 85vh;
     border-radius: 12px 12px 0 0;

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Consulta de CEP e notícias com Next.js em arquitetura MVVM",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function LayoutRaiz({ children }: LayoutProps<"/">) {
   return (
     <html lang="pt-BR">
       <body>{children}</body>
