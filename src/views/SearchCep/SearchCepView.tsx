@@ -12,9 +12,22 @@ export function SearchCepView() {
     <PageContainer title="Consultar CEP">
       <CepForm cep={cep} onCepChange={setCep} onSubmit={handleSearch} loading={loading} />
 
-      {error && <p className={styles.error}>{error}</p>}
+      {error && (
+        <p className={styles.error} role="alert">
+          {error}
+        </p>
+      )}
 
-      {result && (
+      {loading && (
+        <div className={styles.skeleton} aria-hidden="true">
+          <div className={styles.skeletonRow} />
+          <div className={styles.skeletonRow} />
+          <div className={styles.skeletonRow} />
+          <div className={styles.skeletonRow} />
+        </div>
+      )}
+
+      {!loading && result && (
         <dl className={styles.result}>
           <div className={styles.row}>
             <dt>CEP</dt>
