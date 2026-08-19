@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const NEWS_API_ORIGIN = process.env.NEWS_API_ORIGIN ?? "http://localhost:3000";
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   async rewrites() {
     return [
       {
