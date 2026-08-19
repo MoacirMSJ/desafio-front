@@ -1,5 +1,20 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {/* config options here */};
+const NEWS_API_ORIGIN = process.env.NEWS_API_ORIGIN ?? "http://localhost:3000";
+
+const nextConfig: NextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: "/api/noticias",
+        destination: `${NEWS_API_ORIGIN}/api/noticias`,
+      },
+      {
+        source: "/api/noticias/:path*",
+        destination: `${NEWS_API_ORIGIN}/api/noticias/:path*`,
+      },
+    ];
+  },
+};
 
 export default nextConfig;

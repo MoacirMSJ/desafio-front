@@ -1,5 +1,5 @@
-import { HomeView } from "@/views/Home/HomeView";
+import { TelaInicio } from "@/views/Inicio/TelaInicio";
 
-export default function Home() {
-  return <HomeView />;
+export default function Inicio() {
+  return <TelaInicio />;
 }
