@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CEP e Notícias
 
-## Getting Started
+Projeto Next.js (App Router) + TypeScript organizado em arquitetura **MVVM**, com Axios para consumo de APIs externas e estilização em CSS puro (CSS Modules, sem frameworks CSS).
 
-First, run the development server:
+## Arquitetura
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+src/
+├── app/                # Rotas (App Router) — apenas montam as Views
+│   ├── page.tsx            → /
+│   ├── news/page.tsx       → /news
+│   └── search-cep/page.tsx → /search-cep
+├── models/             # Model — tipos/entidades (Cep, News)
+├── services/           # Model — instâncias axios e chamadas HTTP
+├── viewmodels/         # ViewModel — hooks com estado e lógica (useSearchCepViewModel, useNewsViewModel)
+├── views/              # View — telas completas (HomeView, SearchCepView, NewsView)
+└── components/         # Componentes reutilizáveis (Button, CepForm, NewsCard, NewsList, PageContainer)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Model**: `models/` (tipos) + `services/` (axios + chamadas à API).
+- **ViewModel**: `viewmodels/`, hooks React que orquestram estado, chamadas ao Model e expõem dados prontos para a View.
+- **View**: `views/`, componentes de tela que consomem o ViewModel e compõem os componentes de `components/`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## APIs externas
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **CEP**: [ViaCEP](https://viacep.com.br/) — não requer chave.
+- **Notícias**: [NewsAPI.org](https://newsapi.org/) — requer chave gratuita.
 
-## Learn More
+Configure a chave da NewsAPI em `.env.local`:
 
-To learn more about Next.js, take a look at the following resources:
+```
+NEXT_PUBLIC_NEWS_API_KEY=sua_chave_aqui
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Rodando o projeto
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm install
+npm run dev
+```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Acesse `http://localhost:3000`.
