@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CEP e Notícias
 
-## Getting Started
+Projeto Next.js (App Router) + TypeScript organizado em arquitetura **MVVM**, com Axios para consumo de APIs externas e estilização em CSS puro (CSS Modules, sem frameworks CSS).
 
-First, run the development server:
+## Descrição
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Aplicação front-end com duas funcionalidades principais:
+
+- **Busca de CEP**: consulta de endereço a partir de um CEP, usando a API pública [ViaCEP](https://viacep.com.br/).
+- **Notícias**: busca, listagem e paginação de notícias, consumidas a partir de uma API própria (ver [Requisitos](#requisitos-para-executar)).
+
+## Estrutura de pastas
+
+```
+src/
+├── app/                     # Rotas (App Router) — apenas montam as Views
+│   ├── page.tsx                → /
+│   ├── noticias/page.tsx       → /noticias
+│   └── buscar-cep/page.tsx     → /buscar-cep
+├── models/                  # Model — tipos/entidades (Cep, Noticia)
+├── services/                # Model — instâncias axios e chamadas HTTP
+├── viewmodels/              # ViewModel — hooks com estado e lógica
+├── views/                   # View — telas completas
+└── components/              # Componentes reutilizáveis (Botao, FormularioCep,
+                              # CartaoNoticia, ListaNoticias, Paginacao, Modal, etc.)
+tests/
+├── bdd/                     # Cenários de comportamento (Gherkin)
+└── e2e/                     # Testes end-to-end (Playwright)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Model**: `models/` (tipos) + `services/` (axios + chamadas à API).
+- **ViewModel**: `viewmodels/`, hooks React que orquestram estado, chamadas ao Model e expõem dados prontos para a View.
+- **View**: `views/`, componentes de tela que consomem o ViewModel e compõem os componentes de `components/`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Consulta de endereço por CEP, com tratamento de CEP não encontrado.
+- Busca de notícias por termo, com listagem paginada.
+- Cadastro/edição de notícias com confirmação via modal de diálogo.
+- Proxy de API via `rewrites` do Next.js (`/api/noticias` → API de notícias).
+- Testes end-to-end com Playwright e cenários BDD documentados.
 
-## Learn More
+## Requisitos para executar
 
-To learn more about Next.js, take a look at the following resources:
+- [Node.js](https://nodejs.org/) 24+
+- npm
+- A API de notícias rodando localmente ou acessível remotamente: **[desafio-api](https://github.com/MoacirMSJ/desafio-api)**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Como executar
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Instale as dependências:
 
-## Deploy on Vercel
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Copie o arquivo de variáveis de ambiente e ajuste conforme necessário:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   cp .env.local.example .env.local
+   ```
+
+   - `NEWS_API_ORIGIN`: origem da API de notícias ([desafio-api](https://github.com/MoacirMSJ/desafio-api)), usada pelo proxy em `next.config.ts`.
+
+3. Suba a API de notícias (ver instruções no repositório [desafio-api](https://github.com/MoacirMSJ/desafio-api)).
+
+4. Rode a aplicação em modo desenvolvimento:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Acesse `http://localhost:3000`.
+
+### Com Docker
+
+```bash
+docker build -t front-teste-g4f .
+docker run -p 3000:3000 --env-file .env.local front-teste-g4f
+```
+
+## Como rodar os testes
+
+Os testes end-to-end usam [Playwright](https://playwright.dev/) e sobem a aplicação automaticamente (`npm run dev`), salvo quando `PLAYWRIGHT_BASE_URL` é informado.
+
+```bash
+npx playwright install --with-deps
+npm run test:e2e
+```
+
+Os cenários de comportamento (BDD) que descrevem as funcionalidades cobertas pelos testes estão em [`tests/bdd`](tests/bdd).
