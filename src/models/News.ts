@@ -1,16 +1,22 @@
-export interface NewsArticle {
+export interface News {
+  _id: string;
   title: string;
-  description: string | null;
-  url: string;
-  urlToImage: string | null;
-  publishedAt: string;
-  source: {
-    name: string;
-  };
+  description: string;
+  deleted_at: string | null;
+  created_at: string;
+  updated_at: string;
+  __v: number;
 }
 
-export interface NewsResponse {
-  status: string;
-  totalResults: number;
-  articles: NewsArticle[];
+export interface NewsInput {
+  title: string;
+  description: string;
+}
+
+export interface NewsListResponse {
+  data: News[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
 }

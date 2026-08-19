@@ -1,3 +1,10 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
 .message {
   color: #555555;
   font-size: 1rem;
@@ -6,4 +13,29 @@
 .error {
   color: #d32f2f;
   font-weight: 600;
+  background-color: #fdecea;
+  border: 1px solid #f5c6c2;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  width: 100%;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 3rem 1.5rem;
+  border: 1px dashed #cccccc;
+  border-radius: 12px;
+  color: #555555;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

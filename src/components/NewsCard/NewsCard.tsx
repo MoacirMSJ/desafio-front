@@ -1,22 +1,33 @@
-import { NewsArticle } from "@/models/News";
+import { News } from "@/models/News";
+import { Button } from "@/components/Button/Button";
 import styles from "./NewsCard.module.css";
 
 interface NewsCardProps {
-  article: NewsArticle;
+  article: News;
+  onEdit: (article: News) => void;
+  onDelete: (article: News) => void;
 }
 
-export function NewsCard({ article }: NewsCardProps) {
+function formatDate(value: string) {
+  return new Intl.DateTimeFormat("pt-BR", { dateStyle: "short", timeStyle: "short" }).format(new Date(value));
+}
+
+export function NewsCard({ article, onEdit, onDelete }: NewsCardProps) {
   return (
-    <a className={styles.card} href={article.url} target="_blank" rel="noopener noreferrer">
-      {article.urlToImage && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img className={styles.image} src={article.urlToImage} alt={article.title} />
-      )}
+    <article className={styles.card}>
       <div className={styles.content}>
-        <span className={styles.source}>{article.source.name}</span>
         <h3 className={styles.title}>{article.title}</h3>
-        {article.description && <p className={styles.description}>{article.description}</p>}
+        <p className={styles.description}>{article.description}</p>
+        <span className={styles.date}>Atualizado em {formatDate(article.updated_at)}</span>
       </div>
-    </a>
+      <div className={styles.actions}>
+        <Button type="button" variant="secondary" onClick={() => onEdit(article)}>
+          Editar
+        </Button>
+        <Button type="button" variant="danger" onClick={() => onDelete(article)}>
+          Excluir
+        </Button>
+      </div>
+    </article>
   );
 }
